@@ -18,6 +18,7 @@ defmodule DemoWeb.CounterLive.Product do
     def render(assigns) do
     ~L"""
      <div>
+        <%= live_component(@socket, Header, id: "Test Component") %>
         Product description page
         <%= @id %>
      </div>
@@ -27,6 +28,7 @@ defmodule DemoWeb.CounterLive.Product do
     end
 
     def mount(_params, _session, socket) do
+      IO.inspect(socket.assigns)
       {:ok, assign(
           socket,
           val: 0,

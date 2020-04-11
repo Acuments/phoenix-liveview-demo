@@ -142,7 +142,7 @@ select {
 
 .button-group {
   position: absolute;
-  bottom: 2px;
+  bottom: 10px;
   left: 0px;
   right: 0px;
 }
