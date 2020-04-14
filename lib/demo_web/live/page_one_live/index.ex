@@ -19,7 +19,6 @@ defmodule DemoWeb.PageOneLive do
     def mount(_params, _session, socket) do
       Store.init
       {_, cache} = Cachex.get(:my_cache, "global")
-      IO.inspect(cache)
       {:ok, assign(
           socket,
           count: cache.count
