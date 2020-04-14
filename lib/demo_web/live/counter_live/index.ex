@@ -25,7 +25,6 @@ defmodule DemoWeb.CounterLive.Index do
     ~L"""
         <div class="close-cart" phx-click="close-cart">
         <div class="header">
-        <%= Store.getItems %>
         <h1 phx-click="get-state">Click Me to set</h1>
         <h1 phx-click="set-state">Click me to get</h1>
         <p class="cart" phx-click="open-cart"><%= get_cart_items_count(@items) %> | Cart</p>
