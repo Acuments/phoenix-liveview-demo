@@ -24,6 +24,9 @@ defmodule DemoWeb.Router do
     live "/live/check", CounterLive.Index, :check
     live "/live/product/:id", CounterLive.Product
 
+    live "/1", PageOneLive, :index
+    live "/2", PageTwoLive, :index
+
   end
 
   # Other scopes may use custom stacks.

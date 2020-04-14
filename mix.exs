@@ -49,7 +49,8 @@ defmodule Demo.MixProject do
       {:redis, "~> 0.1.0"},
       {:ex2ms, "~> 1.0"},
       {:con_cache, "~> 0.14.0"},
-      {:stash, "~> 1.0.0"}
+      {:stash, "~> 1.0.0"},
+      {:cachex, "~> 3.2"}
     ]
   end
 

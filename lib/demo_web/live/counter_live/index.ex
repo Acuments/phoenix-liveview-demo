@@ -77,13 +77,11 @@ defmodule DemoWeb.CounterLive.Index do
     end
 
     def mount(_params, _session, socket) do
-     tab = :ets.new(:my_table, [:set])
       {:ok, assign(
           socket,
           phones: @phones,
           isCartOpen: false,
           items: @items,
-          tab: tab,
         )}
     end
 
