@@ -9,15 +9,6 @@ defmodule DemoWeb.CounterLive.Index do
     def render(assigns) do
     ~L"""
     <div class="component-container">
-      <div class="left-card">
-        <h4 style="margin-bottom: 20px">Select Filters: </h4>
-        <form>
-        <fieldset id="group1" phx-change="catch">
-        <input type="radio" value="hello" name="group1">
-        <input type="radio" value="world" name="group1">
-    </fieldset>
-        </form>
-      </div>
         <%= live_component(@socket, DemoWeb.HeaderComponent, id: "Header Component", items: @items, isCartOpen: @isCartOpen ) %>
       <div class="product-container product-header">
       <div class="card-box">
