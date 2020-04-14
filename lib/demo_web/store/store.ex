@@ -12,6 +12,8 @@ defmodule DemoWeb.Store do
         IO.puts("Setting the initial state for when the cache does not exist")  
         Cachex.set(:my_cache, "global", @initialState)
       end
+      #Clearing cache
+      # Cachex.clear(:my_cache)
       # Cachex.put(:my_cache, "global", @initialState)
     end
 

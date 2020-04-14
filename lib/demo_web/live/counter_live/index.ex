@@ -23,43 +23,14 @@ defmodule DemoWeb.CounterLive.Index do
 
     def render(assigns) do
     ~L"""
-        <div class="close-cart" phx-click="close-cart">
-        <div class="header">
-        <h1 phx-click="get-state">Click Me to set</h1>
-        <h1 phx-click="set-state">Click me to get</h1>
-        <p class="cart" phx-click="open-cart"><%= get_cart_items_count(@items) %> | Cart</p>
-        <h1>Phoenix Demo Cart</h1>
-        <div class="cart-modal-container">
-      <%= if @isCartOpen do %>
-          <div class="cart-modal">
-            <%= if Enum.count(@items) === 0 do %>
-              <p class="empty-cart">There are no items in your cart...</p> 
-            <% else %>
-                <div>
-                <p>Total cart value: <%= calc_total_price(@items) %></p>
-              </div>
-              <%= for item <- @items do %>
-              <div class="item-card">
-                <p class="remove"><%= item.name %></p>
-                <div class="item-button">
-                  <button phx-click="dec" phx-value-name="<%= item.name %>" class="button-style">-</button>
-                  <%= item.count %>
-                  <button phx-click="inc" phx-value-name="<%= item.name %>" phx-value-price="<%= item.price %>" class="button-style">+</button>
-                </div>
-                </div>
-              <% end %>
-            <% end %>
-          </div>
-        <% end %> 
-    </div>
-      </div>
+        <%= live_component(@socket, DemoWeb.HeaderComponent, id: "Header Component", items: @items, isCartOpen: @isCartOpen ) %>
       <div class="product-container">
         <h1 class="product-header">Products</h1>
       <div class="card-box">
       <div class="cardcontainer">
         <%= for phone <- @phones do %>
           <div class="card">
-          <a  href="/live/products/#{phone.id}" phx-click="goto" phx-value-id="<%= phone.id %>"><p class="card-heading"><%= phone.name %></p>
+          <a  href="/live/product/<%= phone.id%>"><p class="card-heading"><%= phone.name %></p>
           <img src=<%= phone.image%> class="image"/>
           <p>Price: $<%= phone.price %></p></a>
           <div class="button-group">
@@ -71,42 +42,19 @@ defmodule DemoWeb.CounterLive.Index do
       </div>
       </div>
       </div>
-      </div>
     """
     #   DemoWeb.CounterView.render("index.html", assigns)
     end
 
     def mount(_params, _session, socket) do
+      Store.init
+      {_, cache} = Cachex.get(:my_cache, "global")
       {:ok, assign(
           socket,
           phones: @phones,
           isCartOpen: false,
-          items: @items,
+          items: cache.items,
         )}
-    end
-
-    def get_cart_items_count(items) do
-      items_array = Enum.map(items, fn(item) -> 
-        1 * item.count
-      end)
-      Enum.sum(items_array)
-    end
-
-    def calc_total_price(items) do
-      prices = Enum.map(items, fn(item) -> 
-        price = Decimal.new(item.price) |> Decimal.to_integer
-        price * item.count
-      end)
-      Enum.sum(prices)
-      # sum_of_price
-    end
-
-    def handle_event("get_state", _, socket) do
-      
-    end
-
-    def handle_event("goto", %{"id" => id}, socket) do
-      {:noreply, push_redirect(socket, to: Routes.live_path(socket, DemoWeb.CounterLive.Product, id))}
     end
 
     def handle_event("close-cart", _, socket) do
@@ -118,6 +66,7 @@ defmodule DemoWeb.CounterLive.Index do
     end
 
     def handle_event("inc", %{"name" => name, "price" => price}, socket) do
+      
       items = socket.assigns.items
       test = true
       mod_items = Enum.map(items, fn(item) -> 
@@ -134,8 +83,14 @@ defmodule DemoWeb.CounterLive.Index do
       socket = assign(socket, :items, mod_items)
       if (socket.changed === %{} or !socket.changed.items) do
         items = mod_items ++ [%{ name: name, count: 1, price: price}]
+        {_, cache} = Cachex.get(:my_cache, "global")
+        cache = Map.put(cache, :items, items)
+        Cachex.set(:my_cache, "global", cache)
         {:noreply, update(socket, :items, &(&1 = items))}
       else
+        {_, cache} = Cachex.get(:my_cache, "global")
+        cache = Map.put(cache, :items, mod_items)
+        Cachex.set(:my_cache, "global", cache)
         {:noreply, update(socket, :items, &(&1 = mod_items))}
       end
     end
@@ -156,6 +111,10 @@ defmodule DemoWeb.CounterLive.Index do
       after_remove = Enum.filter(mod_items, fn(item) ->
         item.count !== 0
       end)
+      {_, cache} = Cachex.get(:my_cache, "global")
+      cache = Map.put(cache, :items, after_remove)
+      IO.inspect(cache)
+      Cachex.put(:my_cache, "global", cache)
       {:noreply, update(socket, :items, &(&1 = after_remove))}
     end
 end
