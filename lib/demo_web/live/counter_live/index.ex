@@ -2,6 +2,7 @@ defmodule DemoWeb.CounterLive.Index do
     use Phoenix.LiveView
     import Redis
     alias DemoWeb.Router.Helpers, as: Routes
+    alias DemoWeb.Store, as: Store
 
     @phones([
         %{ id: 1, name: "iPhone", count: 0, price: 120, image: "https://images-na.ssl-images-amazon.com/images/I/71XeQzRDyML._AC_SX425_.jpg"},
@@ -23,8 +24,10 @@ defmodule DemoWeb.CounterLive.Index do
     def render(assigns) do
     ~L"""
         <div class="close-cart" phx-click="close-cart">
-        <%= live_component(@socket, Header, id: "Test Component") %>
         <div class="header">
+        <%= Store.getItems %>
+        <h1 phx-click="get-state">Click Me to set</h1>
+        <h1 phx-click="set-state">Click me to get</h1>
         <p class="cart" phx-click="open-cart"><%= get_cart_items_count(@items) %> | Cart</p>
         <h1>Phoenix Demo Cart</h1>
         <div class="cart-modal-container">
@@ -33,7 +36,7 @@ defmodule DemoWeb.CounterLive.Index do
             <%= if Enum.count(@items) === 0 do %>
               <p class="empty-cart">There are no items in your cart...</p> 
             <% else %>
-              <div>
+                <div>
                 <p>Total cart value: <%= calc_total_price(@items) %></p>
               </div>
               <%= for item <- @items do %>
@@ -75,11 +78,13 @@ defmodule DemoWeb.CounterLive.Index do
     end
 
     def mount(_params, _session, socket) do
+     tab = :ets.new(:my_table, [:set])
       {:ok, assign(
           socket,
           phones: @phones,
           isCartOpen: false,
           items: @items,
+          tab: tab,
         )}
     end
 
@@ -97,6 +102,10 @@ defmodule DemoWeb.CounterLive.Index do
       end)
       Enum.sum(prices)
       # sum_of_price
+    end
+
+    def handle_event("get_state", _, socket) do
+      
     end
 
     def handle_event("goto", %{"id" => id}, socket) do

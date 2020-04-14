@@ -42,10 +42,14 @@ defmodule Demo.MixProject do
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
+      {:poison, "~> 3.1"},
       {:plug_cowboy, "~> 2.0"},
       {:phoenix_live_view, "~> 0.11.1"},
       {:floki, ">= 0.0.0", only: :test},
-      {:redis, "~> 0.1.0"}
+      {:redis, "~> 0.1.0"},
+      {:ex2ms, "~> 1.0"},
+      {:con_cache, "~> 0.14.0"},
+      {:stash, "~> 1.0.0"}
     ]
   end
 
