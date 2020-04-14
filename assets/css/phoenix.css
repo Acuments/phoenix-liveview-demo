@@ -93,17 +93,16 @@ select {
 .card {
   width: 200px;
   height: 340px;
-  background-color: lightblue;
+  background-color: white;
   margin: 10px;
   text-align: center;
-  border-radius: 8px;
   position: relative;
+  box-shadow: 0px 0px 60px -35px rgba(0,0,0,0.75);
   transition: 0.2s ease-in-out;
 }
 
 .card:hover {
-  box-shadow: 0px 0px 81px -34px rgba(0,0,0,0.75);
-  background-color: #85add8;
+  box-shadow: 0px 0px 45px -35px rgba(0,0,0,0.75);
   transition: 0.2s ease-in-out;
 }
 
@@ -162,9 +161,9 @@ select {
 /* Headers */
 .header {
   width: 100%;
-  background: linear-gradient(to bottom, #feffff 0%,#a0d8ef 100%);
+  background: #fff5f5;
   margin: 0px;
-  padding: 0px;
+  padding: 10px;
   text-align: center;
   position: fixed;
   z-index: 100;
@@ -175,6 +174,15 @@ select {
   right: 10px;
   top: 10px;
   cursor: pointer;
+  border-radius: 4px;
+  background-color: #ff5c61;
+  padding: 10px;
+  transition: 0.2s ease-in-out;
+}
+
+.cart:hover {
+  background-color: #dc3545;
+  transition: 0.2s ease-in-out;
 }
 
 .product-container {
@@ -212,10 +220,27 @@ select {
   height: 100;
 }
 
+.component-container {
+  position: relative;
+}
+
+.left-card {
+  margin-top: 110px;
+  width: 260px;
+  height: 345px;
+  margin-left: 20px;
+  background-color: white;
+  padding: 10px;
+  position: absolute;
+  box-shadow: 0px 0px 60px -34px rgba(0,0,0,0.75);
+  text-align: center;
+  z-index: 400;
+}
+
 .product-header {
   padding: 30px;
   margin-left: 30px;
-  padding-top: 60px;
+  padding-top: 100px;
 }
 
 .product-card-container {
@@ -229,21 +254,29 @@ select {
 .product-card {
   padding: 20px;
   width: 400px;
-  background-color: lightblue;
+  background-color: white;
   text-align: center;
   border-radius: 5px;
   position: relative;
-  box-shadow: 0px 0px 81px -34px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 60px -34px rgba(0,0,0,0.75);
+  transition: 0.3s ease-in-out;
 }
+
+.product-card:hover {
+  transition: 0.3s ease-in-out;
+  box-shadow: 0px 0px 45px -34px rgba(0,0,0,0.75);
+}
+
 
 .item-card {
   border-radius: 10px;
-  width: 100%;
-  background-color: lightskyblue;
+  width: auto;
+  background-color: rgb(245, 217, 217);
   padding: 10px;
   margin-bottom: 10px;
   display: flex;
   position: relative;
+  box-shadow: 0px 0px 45px -34px black;
 }
 
 .item-button {

@@ -17,12 +17,14 @@ defmodule DemoWeb.HeaderComponent do
                 <p>Total cart value: <%= calc_total_price(@items) %></p>
               </div>
               <%= for item <- @items do %>
+              <div class="item-card-container">
               <div class="item-card">
-                <a href="/products/#{item.id}"><p class="remove"><%= item.name %></p></a>
+                <p class="remove"><%= item.name %></p>
                 <div class="item-button">
                   <button phx-click="dec" phx-value-name="<%= item.name %>" class="button-style">-</button>
                   <%= item.count %>
                   <button phx-click="inc" phx-value-name="<%= item.name %>" phx-value-price="<%= item.price %>" class="button-style">+</button>
+                </div>
                 </div>
                 </div>
               <% end %>

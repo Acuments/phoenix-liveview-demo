@@ -70,7 +70,7 @@ defmodule DemoWeb.CounterLive.Product do
           %{
             name: item.name,
             count: item.count + 1,
-            price: item.price
+            price: item.price,
           }
         else
           item

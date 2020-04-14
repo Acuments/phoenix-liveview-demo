@@ -66,7 +66,6 @@ defmodule DemoWeb.CounterLive.Index do
     end
 
     def handle_event("inc", %{"name" => name, "price" => price}, socket) do
-      
       items = socket.assigns.items
       test = true
       mod_items = Enum.map(items, fn(item) -> 
