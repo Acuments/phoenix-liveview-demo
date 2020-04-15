@@ -17,11 +17,7 @@ defmodule DemoWeb.Router do
   scope "/", DemoWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
-    get "/view", PageController, :show
-
-    live "/live", CounterLive.Index, :index
-    live "/live/check", CounterLive.Index, :check
+    live "/", CounterLive.Index, :index
     live "/live/product/:id", CounterLive.Product
 
     live "/1", PageOneLive, :index
