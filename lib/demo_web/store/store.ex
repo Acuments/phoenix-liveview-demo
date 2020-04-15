@@ -33,7 +33,20 @@ defmodule DemoWeb.Store do
       # Cachex.put(:my_cache, "global", @initialState)
     end
 
+    def getPhonesPerPage(per_page, page) do
+      slice_amount = per_page * page
+      Enum.slice(@phones, 1..slice_amount)
+    end
+
+    def phoneCount do
+      Enum.count(@phones)
+    end
+
     def getPhones do
+      Enum.slice(@phones, 1..5)
+    end
+
+    def getAllPhones do
       @phones
     end
 

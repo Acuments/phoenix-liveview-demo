@@ -114,6 +114,12 @@ select {
   width: 70%;
 }
 
+.center-align {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .cardtext {
   text-align: center;
   position: relative;
@@ -149,6 +155,16 @@ select {
   background-color: #ff5c61;
 }
 
+.button-style:focus {
+  width: 100%;
+  height: 50px;
+  padding: 0px;
+  margin: 0px;
+  border: none;
+  border-radius: 0px;
+  background-color: #ff5c61;
+}
+
 .button-style-cart {
   padding: 0px;
   padding-left: 10px;
@@ -160,6 +176,25 @@ select {
   background-color: #ff5c61;
   color: black;
   background-color: rgb(223, 223, 223);
+}
+
+.button-style-cart:focus {
+  padding: 0px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 0px;
+  border: none;
+  width: 40px;
+  border-radius: 50px;
+  background-color: #ff5c61;
+  color: black;
+  background-color: rgb(223, 223, 223);
+}
+
+.button-center {
+  margin: 0px;
+  margin-top: 15px;
+  margin-right: 10px;
 }
 
 .cart-image {
@@ -230,12 +265,13 @@ select {
 .badge {
   background-color: #ff5c61;
   margin: 0px;
+  font-size: 10px;
   position: absolute;
   width: 20px;
   border-radius: 30px;
-  height: 25px;
+  height: 20px;
   margin-left: 15px;
-  margin-top: -15px;
+  margin-top: -10px;
 }
 
 .product-container {
@@ -267,6 +303,19 @@ select {
 }
 
 .checkout-button {
+  border-radius: 0px;
+  height: 50px;
+  width: 100%;
+  margin-top: 80px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin-bottom: 0px;
+  background-color: #ff5c61;
+  border: none;
+}
+
+.checkout-button:focus {
   border-radius: 0px;
   height: 50px;
   width: 100%;
@@ -375,6 +424,29 @@ select {
   margin-top: 10px;
   font-size: 16px;
   font-weight: 600;
+}
+
+.load-button {
+  background-color: white;
+  color: black;
+  border-color: #ff5c61;
+}
+
+.load-button:hover {
+  background-color: white;
+  color: black;
+  border-color: #ff5c61;  
+}
+
+.load-button:focus {
+  background-color: white;
+  color: black;
+  border-color: #ff5c61;  
+}
+
+.select {
+  display: flex;
+  justify-content: flex-end;
 }
 
 @media (min-width: 40.0rem) { /* Small devices (landscape phones, 576px and up) */

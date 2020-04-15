@@ -47,7 +47,7 @@ defmodule DemoWeb.CounterLive.Product do
     end
 
     def getCurrentItem(i_d) do
-        Enum.filter(Store.getPhones, fn(phone) ->
+        Enum.filter(Store.getAllPhones, fn(phone) ->
             phone.id == i_d
         end)
     end

@@ -11,6 +11,15 @@ defmodule DemoWeb.CounterLive.Index do
     <div class="component-container">
         <%= live_component(@socket, DemoWeb.HeaderComponent, id: "Header Component", items: @items, isCartOpen: @isCartOpen ) %>
       <div class="product-container product-header">
+      <div class="button-center select">
+        <form for="per_page" phx-change="select-page" style="margin: 0px; padding: 0px;">
+          <select id="per_page" phx-select="select-page" name="per_page">
+            <option value="pp" selected>Per Page </option> 
+            <option value="5">5</option>
+            <option value="10">10</option>
+          </select>
+        </form>
+      </div>
       <div class="card-box">
       <div class="cardcontainer">
         <%= for phone <- @phones do %>
@@ -25,6 +34,13 @@ defmodule DemoWeb.CounterLive.Index do
         <% end %>
       </div>
       </div>
+      <div class="center-align">
+      <%= if @perPage * @page < 13 do %>
+        <div class="button-center">
+          <button phx-click="load-more" class="load-button">Load More</button>
+        </div>
+      <% end %>
+      </div
       </div>
       </div>
     """
@@ -39,10 +55,23 @@ defmodule DemoWeb.CounterLive.Index do
           phones: Store.getPhones,
           isCartOpen: false,
           items: cache.items,
-          phoneCount: Enum.count(Store.getPhones),
-          perPage: nil,
+          phoneCount: Store.phoneCount,
+          perPage: 5,
           page: 1,
         )}
+    end
+
+    def handle_event("select-page", %{"per_page" => per_page}, socket) do
+      {perPage, _} = Integer.parse(per_page)
+      phones = Store.getPhonesPerPage(perPage, 1)
+      socket = assign(socket, phones: phones, perPage: perPage, page: 1)
+      {:noreply, socket}
+    end
+
+    def handle_event("load-more", _, socket) do
+      phones = Store.getPhonesPerPage(socket.assigns.perPage, socket.assigns.page+ 1)
+      socket = assign(socket, page: socket.assigns.page + 1)
+      {:noreply, update(socket, :phones, &(&1 = phones))}
     end
 
     def handle_event("delete-item", %{"name" => name}, socket) do
