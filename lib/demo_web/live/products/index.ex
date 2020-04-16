@@ -53,6 +53,7 @@ defmodule DemoWeb.ProductsLive.Index do
   end
 
   def handle_event("open-cart", _, socket) do
+    IO.puts("open-cart")
     {:noreply, update(socket, :isCartOpen, &(!&1))}
   end
 
