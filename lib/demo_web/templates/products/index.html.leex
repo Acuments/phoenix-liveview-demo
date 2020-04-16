@@ -1,5 +1,5 @@
 <div class="component-container">
-  <%= live_component(@socket, DemoWeb.HeaderComponent, id: "Header Component", items: @items, isCartOpen: @isCartOpen ) %>
+  <%= live_component(@socket, DemoWeb.Components.Header, id: "Header Component", items: @items, isCartOpen: @isCartOpen ) %>
   <div class="product-container product-header">
     <div class="button-center select">
       <form for="per_page" phx-change="select-page" style="margin: 0px; padding: 0px;">
@@ -11,16 +11,9 @@
       </form>
     </div>
     <div class="card-box">
-      <div class="cardcontainer">
+      <div class="card-container">
         <%= for phone <- @phones do %>
-        <div class="card">
-          <a  href="/product/<%= phone.id%>" class="link-style"><p class="card-heading"><%= phone.name %></p>
-            <img src=<%= phone.image%> class="image"/>
-            <p>Price: $<%= phone.price %></p></a>
-          <div class="button-group">
-            <button phx-click="inc" phx-value-name="<%= phone.name %>" phx-value-price="<%= phone.price %>" class="button-style" >Add to cart</button>
-          </div>
-        </div>
+          <%= live_component(@socket, DemoWeb.Components.ItemCard, phone: phone, onClick: 'inc', btnText: 'Add to cart') %>
         <% end %>
       </div>
     </div>

@@ -31,8 +31,8 @@ defmodule DemoWeb.Store do
   end
 
   def getPhonesPerPage(per_page, page) do
-    slice_amount = per_page * page
-    Enum.slice(@phones, 1..slice_amount)
+    slice_amount = per_page * page - 1
+    Enum.slice(@phones, 0..slice_amount)
   end
 
   def phoneCount do
@@ -40,7 +40,7 @@ defmodule DemoWeb.Store do
   end
 
   def getPhones do
-    Enum.slice(@phones, 1..4)
+    Enum.slice(@phones, 0..3)
   end
 
   def getAllPhones do
