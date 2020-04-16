@@ -106,11 +106,10 @@ select {
   transition: 0.2s ease-in-out;
 }
 
-.cardcontainer {
+.card-container {
   margin-left: 0px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   width: 70%;
 }
 

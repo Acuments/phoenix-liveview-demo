@@ -3,45 +3,40 @@ defmodule DemoWeb.CounterLive.Index do
     import Redis
     alias DemoWeb.Router.Helpers, as: Routes
     alias DemoWeb.Store, as: Store
+    alias DemoWeb.Component.Header
+    alias DemoWeb.Component.ItemCard
  
     @items([])
 
     def render(assigns) do
     ~L"""
-    <div class="component-container">
-        <%= live_component(@socket, DemoWeb.HeaderComponent, id: "Header Component", items: @items, isCartOpen: @isCartOpen ) %>
-      <div class="product-container product-header">
-      <div class="button-center select">
-        <form for="per_page" phx-change="select-page" style="margin: 0px; padding: 0px;">
-          <select id="per_page" phx-select="select-page" name="per_page">
-            <option value="pp" selected>Per Page </option> 
-            <option value="5">5</option>
-            <option value="10">10</option>
-          </select>
-        </form>
-      </div>
-      <div class="card-box">
-      <div class="cardcontainer">
-        <%= for phone <- @phones do %>
-          <div class="card">
-          <a  href="/live/product/<%= phone.id%>" class="link-style"><p class="card-heading"><%= phone.name %></p>
-          <img src=<%= phone.image%> class="image"/>
-          <p>Price: $<%= phone.price %></p></a>
-          <div class="button-group">
-            <button phx-click="inc" phx-value-name="<%= phone.name %>" phx-value-price="<%= phone.price %>" class="button-style" >Add to cart</button>
+      <div class="component-container">
+        <%= live_component(@socket, Header, id: "Header Component", items: @items, isCartOpen: @isCartOpen ) %>
+        <div class="product-container product-header">
+          <div class="button-center select">
+            <form for="per_page" phx-change="select-page" style="margin: 0px; padding: 0px;">
+              <select id="per_page" phx-select="select-page" name="per_page">
+                <option value="pp" selected>Per Page </option>
+                <option value="4">4</option>
+                <option value="8">8</option>
+              </select>
+            </form>
           </div>
+          <div class="card-box">
+            <div class="card-container">
+              <%= for phone <- @phones do %>
+                <%= live_component(@socket, ItemCard, phone: phone, onClick: 'inc', btnText: 'Add to cart') %>
+              <% end %>
+            </div>
           </div>
-        <% end %>
-      </div>
-      </div>
-      <div class="center-align">
-      <%= if @perPage * @page < 13 do %>
-        <div class="button-center">
-          <button phx-click="load-more" class="load-button">Load More</button>
+          <div class="center-align">
+            <%= if Store.showLoadMore(@perPage, @page) do %>
+              <div class="button-center">
+                <button phx-click="load-more" class="load-button">Load More</button>
+              </div>
+            <% end %>
+          </div
         </div>
-      <% end %>
-      </div
-      </div>
       </div>
     """
     #   DemoWeb.CounterView.render("index.html", assigns)
@@ -56,7 +51,7 @@ defmodule DemoWeb.CounterLive.Index do
           isCartOpen: false,
           items: cache.items,
           phoneCount: Store.phoneCount,
-          perPage: 5,
+          perPage: 4,
           page: 1,
         )}
     end
