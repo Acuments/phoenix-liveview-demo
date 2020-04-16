@@ -30,6 +30,10 @@ defmodule DemoWeb.Store do
     end
   end
 
+  def clearCache do
+    Cachex.clear(:my_cache)
+  end
+
   def getPhonesPerPage(per_page, page) do
     slice_amount = per_page * page - 1
     Enum.slice(@phones, 0..slice_amount)
