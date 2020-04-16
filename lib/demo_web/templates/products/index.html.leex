@@ -1,5 +1,5 @@
 <div class="component-container">
-  <%= live_component(@socket, Header, id: "Header Component", items: @items, isCartOpen: @isCartOpen ) %>
+  <%= live_component(@socket, DemoWeb.Components.Header, id: "Header Component", items: @items, isCartOpen: @isCartOpen ) %>
   <div class="product-container product-header">
     <div class="button-center select">
       <form for="per_page" phx-change="select-page" style="margin: 0px; padding: 0px;">

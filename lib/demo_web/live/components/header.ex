@@ -1,4 +1,4 @@
-defmodule DemoWeb.HeaderComponent do
+defmodule DemoWeb.Components.Header do
     use Phoenix.LiveComponent
 
   def render(assigns) do

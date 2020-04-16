@@ -1,11 +1,12 @@
 defmodule DemoWeb.CounterLive.Product do
     use Phoenix.LiveView
     alias DemoWeb.Store, as: Store
+    alias DemoWeb.Components.Header
 
     def render(assigns) do
     ~L"""
      <div>
-        <%= live_component(@socket, DemoWeb.HeaderComponent, id: "Test Component", items: @items, isCartOpen: @isCartOpen) %>
+        <%= live_component(@socket, Header, id: "Test Component", items: @items, isCartOpen: @isCartOpen) %>
         <div class="product-card-container">
           <div class="product-card">
             <h1 style="margin-bottom: 20px"><%= @currentItem.name %></h1>
