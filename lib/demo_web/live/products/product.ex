@@ -1,4 +1,4 @@
-defmodule DemoWeb.CounterLive.Product do
+defmodule DemoWeb.ProductsLive.Product do
   use Phoenix.LiveView
   alias DemoWeb.Store, as: Store
 
