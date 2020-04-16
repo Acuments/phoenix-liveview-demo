@@ -21,6 +21,7 @@ defmodule DemoWeb.ProductsLive.Index do
       phoneCount: Store.phoneCount,
       perPage: 4,
       page: 1,
+      message: ""
     )}
   end
 
@@ -76,34 +77,49 @@ defmodule DemoWeb.ProductsLive.Index do
       {_, cache} = Cachex.get(:my_cache, "global")
       cache = Map.put(cache, :items, items)
       Cachex.set(:my_cache, "global", cache)
+      socket = assign(socket, message: "Product Added To Cart Successfully")
       {:noreply, update(socket, :items, &(&1 = items))}
     else
       {_, cache} = Cachex.get(:my_cache, "global")
       cache = Map.put(cache, :items, mod_items)
       Cachex.set(:my_cache, "global", cache)
+      socket = assign(socket, message: "Product Added To Cart Successfully")
       {:noreply, update(socket, :items, &(&1 = mod_items))}
     end
   end
 
   def handle_event("dec", %{"name" => name}, socket) do
     items = socket.assigns.items
-    mod_items = Enum.map(items, fn(item) ->
-      if (item.name === name) do
-        %{
-          name: item.name,
-          count: item.count - 1,
-          price: item.price
-        }
-      else
-        item
+    mod_items = Enum.map(
+      items,
+      fn (item) ->
+        if (item.name === name) do
+          %{
+            name: item.name,
+            count: item.count - 1,
+            price: item.price
+          }
+        else
+          item
+        end
       end
-    end)
-    after_remove = Enum.filter(mod_items, fn(item) ->
-      item.count !== 0
-    end)
+    )
+    after_remove = Enum.filter(
+      mod_items,
+      fn (item) ->
+        item.count !== 0
+      end
+    )
     {_, cache} = Cachex.get(:my_cache, "global")
     cache = Map.put(cache, :items, after_remove)
     Cachex.put(:my_cache, "global", cache)
-    {:noreply, update(socket, :items, &(&1 = after_remove))}
+
+    socket = update(socket, :items, &(&1 = after_remove))
+    socket = assign(socket, message: "Product Deleted From Cart Successfully!")
+    {:noreply, socket}
+  end
+
+  def handle_event("close-alert", _, socket) do
+    {:noreply, assign(socket, message: "")}
   end
 end

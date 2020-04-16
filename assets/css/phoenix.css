@@ -43,7 +43,17 @@ select {
   color: #31708f;
   background-color: #d9edf7;
   border-color: #bce8f1;
+  padding: 20px;
+  margin: 0px 10%;
 }
+.alert-info p {
+  margin: 0px;
+}
+
+.alert-close {
+  float: right;
+}
+
 .alert-warning {
   color: #8a6d3b;
   background-color: #fcf8e3;
@@ -91,14 +101,14 @@ select {
 }
 
 .card {
-  width: 200px;
+  width: 248px;
   height: 350px;
   background-color: white;
-  margin: 10px;
   text-align: center;
   position: relative;
   box-shadow: 0px 0px 60px -35px rgba(0,0,0,0.75);
   transition: 0.2s ease-in-out;
+  margin-bottom: 20px;
 }
 
 .card:hover {
@@ -110,8 +120,8 @@ select {
   margin-left: 0px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  width: 70%;
+  justify-content: space-around;
+  flex: 1;
 }
 
 .center-align {
@@ -230,7 +240,7 @@ select {
   position: absolute;
   left: 0;
   right: 0;
-  
+
 }
 
 .image {
@@ -243,10 +253,10 @@ select {
   width: 100%;
   background: #fff5f5;
   margin: 0px;
-  padding: 10px;
   text-align: center;
   position: fixed;
   z-index: 100;
+  padding: 10px 10% 10px 10%;
 }
 
 .header-name {
@@ -276,6 +286,7 @@ select {
 
 .product-container {
   position: relative;
+  margin: 0px 10%;
 }
 
 .cart-modal-position {
@@ -342,7 +353,7 @@ select {
 
 .close-cart {
   background-color: white;
-  height: 100;
+  height: 65px;
 }
 
 .component-container {
@@ -363,9 +374,7 @@ select {
 }
 
 .product-header {
-  padding: 30px;
-  margin-left: 30px;
-  padding-top: 100px;
+  padding-top: 25px;
 }
 
 .product-card-container {
@@ -434,13 +443,13 @@ select {
 .load-button:hover {
   background-color: white;
   color: black;
-  border-color: #ff5c61;  
+  border-color: #ff5c61;
 }
 
 .load-button:focus {
   background-color: white;
   color: black;
-  border-color: #ff5c61;  
+  border-color: #ff5c61;
 }
 
 .select {

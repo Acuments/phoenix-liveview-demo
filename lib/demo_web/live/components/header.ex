@@ -1,5 +1,5 @@
 defmodule DemoWeb.Components.Header do
-    use Phoenix.LiveComponent
+  use Phoenix.LiveComponent
 
   def render(assigns) do
     DemoWeb.ProductsView.render("header.html", assigns)

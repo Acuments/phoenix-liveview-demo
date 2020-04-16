@@ -1,5 +1,6 @@
 <div class="component-container">
-  <%= live_component(@socket, DemoWeb.Components.Header, id: "Header Component", items: @items, isCartOpen: @isCartOpen ) %>
+  <%= live_component(@socket, DemoWeb.Components.Header, items: @items, isCartOpen: @isCartOpen ) %>
+  <%= live_component(@socket, DemoWeb.Components.Alert, message: @message) %>
   <div class="product-container product-header">
     <div class="button-center select">
       <form for="per_page" phx-change="select-page" style="margin: 0px; padding: 0px;">
@@ -19,9 +20,9 @@
     </div>
     <div class="center-align">
       <%= if @perPage * @page < 13 do %>
-      <div class="button-center">
-        <button phx-click="load-more" class="load-button">Load More</button>
-      </div>
+        <div class="button-center">
+          <button phx-click="load-more" class="load-button">Load More</button>
+        </div>
       <% end %>
     </div>
   </div>
