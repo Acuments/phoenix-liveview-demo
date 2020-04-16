@@ -106,7 +106,7 @@ select {
   transition: 0.2s ease-in-out;
 }
 
-.cardcontainer {
+.card-container {
   margin-left: 0px;
   display: flex;
   flex-wrap: wrap;
@@ -373,7 +373,6 @@ select {
   width: 100%;
   text-align: center;
   display: flex;
-  justify-content: center;
 }
 
 .product-card {
