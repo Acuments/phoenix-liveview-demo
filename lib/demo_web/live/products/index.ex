@@ -1,50 +1,13 @@
-defmodule DemoWeb.CounterLive.Index do
+defmodule DemoWeb.ProductsLive.Index do
     use Phoenix.LiveView
     import Redis
     alias DemoWeb.Router.Helpers, as: Routes
     alias DemoWeb.Store, as: Store
- 
+
     @items([])
 
     def render(assigns) do
-    ~L"""
-    <div class="component-container">
-        <%= live_component(@socket, DemoWeb.HeaderComponent, id: "Header Component", items: @items, isCartOpen: @isCartOpen ) %>
-      <div class="product-container product-header">
-      <div class="button-center select">
-        <form for="per_page" phx-change="select-page" style="margin: 0px; padding: 0px;">
-          <select id="per_page" phx-select="select-page" name="per_page">
-            <option value="pp" selected>Per Page </option> 
-            <option value="5">5</option>
-            <option value="10">10</option>
-          </select>
-        </form>
-      </div>
-      <div class="card-box">
-      <div class="cardcontainer">
-        <%= for phone <- @phones do %>
-          <div class="card">
-          <a  href="/live/product/<%= phone.id%>" class="link-style"><p class="card-heading"><%= phone.name %></p>
-          <img src=<%= phone.image%> class="image"/>
-          <p>Price: $<%= phone.price %></p></a>
-          <div class="button-group">
-            <button phx-click="inc" phx-value-name="<%= phone.name %>" phx-value-price="<%= phone.price %>" class="button-style" >Add to cart</button>
-          </div>
-          </div>
-        <% end %>
-      </div>
-      </div>
-      <div class="center-align">
-      <%= if @perPage * @page < 13 do %>
-        <div class="button-center">
-          <button phx-click="load-more" class="load-button">Load More</button>
-        </div>
-      <% end %>
-      </div
-      </div>
-      </div>
-    """
-    #   DemoWeb.CounterView.render("index.html", assigns)
+      DemoWeb.ProductsView.render("index.html", assigns)
     end
 
     def mount(_params, _session, socket) do
@@ -96,7 +59,7 @@ defmodule DemoWeb.CounterLive.Index do
     def handle_event("inc", %{"name" => name, "price" => price}, socket) do
       items = socket.assigns.items
       test = true
-      mod_items = Enum.map(items, fn(item) -> 
+      mod_items = Enum.map(items, fn(item) ->
         if (item.name === name) do
           %{
             name: item.name,
