@@ -3,7 +3,6 @@ defmodule DemoWeb.ProductsLive.Index do
     import Redis
     alias DemoWeb.Router.Helpers, as: Routes
     alias DemoWeb.Store, as: Store
-    alias DemoWeb.Components.Header
 
     @items([])
 
@@ -20,7 +19,7 @@ defmodule DemoWeb.ProductsLive.Index do
           isCartOpen: false,
           items: cache.items,
           phoneCount: Store.phoneCount,
-          perPage: 5,
+          perPage: 4,
           page: 1,
         )}
     end
