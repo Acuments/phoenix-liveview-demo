@@ -1,5 +1,6 @@
 <div>
-  <%= live_component(@socket, DemoWeb.Components.Header, id: "Test Component", items: @items, isCartOpen: @isCartOpen) %>
+  <%= live_component(@socket, DemoWeb.Components.Header, items: @items, isCartOpen: @isCartOpen) %>
+  <%= live_component(@socket, DemoWeb.Components.Alert, message: @message) %>
   <div class="product-card-container">
     <div class="product-card">
       <h1 style="margin-bottom: 20px"><%= @currentItem.name %></h1>

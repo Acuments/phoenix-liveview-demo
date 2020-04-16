@@ -16,7 +16,8 @@ defmodule DemoWeb.ProductsLive.Product do
       socket,
       isCartOpen: false,
       items: cache.items,
-      currentItem: currentItem
+      currentItem: currentItem,
+      message: ""
     )}
   end
 
@@ -62,11 +63,13 @@ defmodule DemoWeb.ProductsLive.Product do
       {_, cache} = Cachex.get(:my_cache, "global")
       cache = Map.put(cache, :items, items)
       Cachex.set(:my_cache, "global", cache)
+      socket = assign(socket, message: "Product Added To Cart Successfully")
       {:noreply, update(socket, :items, &(&1 = items))}
     else
       {_, cache} = Cachex.get(:my_cache, "global")
       cache = Map.put(cache, :items, mod_items)
       Cachex.set(:my_cache, "global", cache)
+      socket = assign(socket, message: "Product Added To Cart Successfully")
       {:noreply, update(socket, :items, &(&1 = mod_items))}
     end
   end
@@ -90,6 +93,11 @@ defmodule DemoWeb.ProductsLive.Product do
     {_, cache} = Cachex.get(:my_cache, "global")
     cache = Map.put(cache, :items, after_remove)
     Cachex.put(:my_cache, "global", cache)
+    socket = assign(socket, message: "Product Deleted From Cart Successfully!")
     {:noreply, update(socket, :items, &(&1 = after_remove))}
+  end
+
+  def handle_event("close-alert", _, socket) do
+    {:noreply, assign(socket, message: "")}
   end
 end
