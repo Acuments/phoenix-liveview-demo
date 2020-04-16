@@ -3,6 +3,7 @@ defmodule DemoWeb.ProductsLive.Index do
     import Redis
     alias DemoWeb.Router.Helpers, as: Routes
     alias DemoWeb.Store, as: Store
+    alias DemoWeb.Components.Header
 
     @items([])
 
