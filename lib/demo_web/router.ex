@@ -18,7 +18,7 @@ defmodule DemoWeb.Router do
     pipe_through :browser
 
     live "/", ProductsLive.Index, :index
-    live "/live/product/:id", CounterLive.Product
+    live "/product/:id", ProductsLive.Product
   end
 
   # Other scopes may use custom stacks.
