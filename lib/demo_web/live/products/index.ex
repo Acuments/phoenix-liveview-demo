@@ -19,7 +19,7 @@ defmodule DemoWeb.ProductsLive.Index do
       isCartOpen: false,
       items: cache.items,
       phoneCount: Store.phoneCount,
-      perPage: 5,
+      perPage: 4,
       page: 1,
     )}
   end
