@@ -6,26 +6,26 @@ defmodule DemoWeb.StoreTest do
   @initialState(%{count: 0, isOpen: false, items: [], test_state_var: "test"})
   @empty(nil)
 
-  describe "Testing Store: " do
-    test "Init method: " do
+  describe "DemoWeb.Store" do
+    test "#init" do
       Store.clearCache
       Store.init
       {:ok, initialState} = Cachex.get(:my_cache, "global")
       assert initialState == @initialState
     end
 
-    test "getPhones method: " do
+    test "#getPhones" do
       Store.clearCache
       phones = Store.getPhones
       assert Enum.count(phones) == 4
     end
 
-    test "phoneCount method: " do
+    test "#phoneCount" do
       Store.clearCache
       assert Store.phoneCount == 12
     end
 
-    test "clearCache method: " do
+    test "#clearCache" do
       Store.init
       {:ok, initialState} = Cachex.get(:my_cache, "global")
       assert initialState == @initialState
@@ -34,9 +34,8 @@ defmodule DemoWeb.StoreTest do
       assert initialState == @empty
     end
 
-    test "getAllPhones method: " do      
+    test "#getAllPhones" do
       assert Enum.count(Store.getAllPhones) == 12
     end
   end
-
 end
