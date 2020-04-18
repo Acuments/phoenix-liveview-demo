@@ -13,8 +13,7 @@ defmodule DemoWeb.IntegrationTest do
 
   Hound.start_session
 
-  describe "Integration tests: " do
-    
+  describe "DemoWeb.ProductsLive.Index" do
     test "clicking on banner redirects to / path" do
       navigate_to(@homepage)
       element = find_element :name, "homepage"
@@ -43,7 +42,5 @@ defmodule DemoWeb.IntegrationTest do
       click element
       assert visible_text(badge_element) == "0"
     end
-
   end
-  
 end
