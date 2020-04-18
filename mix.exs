@@ -50,7 +50,9 @@ defmodule Demo.MixProject do
       {:ex2ms, "~> 1.0"},
       {:con_cache, "~> 0.14.0"},
       {:stash, "~> 1.0.0"},
-      {:cachex, "~> 3.2"}
+      {:cachex, "~> 3.2"},
+      {:hound, "~> 1.0", only: :test},
+      {:phoenix_integration, "~> 0.6", only: :test}
     ]
   end
 

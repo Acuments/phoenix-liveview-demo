@@ -12,7 +12,9 @@ config :demo, Demo.Repo,
 # you can enable the server option below.
 config :demo, DemoWeb.Endpoint,
   http: [port: 4002],
-  server: false
+  server: true
+
+config :hound, driver: "phantomjs"
 
 # Print only warnings and errors during test
 config :logger, level: :warn

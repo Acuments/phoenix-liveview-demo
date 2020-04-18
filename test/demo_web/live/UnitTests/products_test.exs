@@ -2,7 +2,7 @@ defmodule DemoWeb.ProductsLiveTest do
   use DemoWeb.ConnCase
   import Phoenix.LiveViewTest
   alias DemoWeb.Store
-
+  
   @test_add_item(%{count: 1, name: "One Plus", price: 110})
   @test_remove_item([])
 

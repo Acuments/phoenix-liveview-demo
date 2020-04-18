@@ -21,7 +21,7 @@
     <div class="center-align">
       <%= if @perPage * @page < 13 do %>
         <div class="button-center">
-          <button phx-click="load-more" class="load-button">Load More</button>
+          <button phx-click="load-more" class="load-button" id="load">Load More</button>
         </div>
       <% end %>
     </div>
