@@ -50,7 +50,7 @@ defmodule DemoWeb.ProductsLive.CheckOut do
   end
 
   def handle_event("dec", %{"id" => id}, socket) do
-    after_remove = Store.decItemFromCard(id)
+    after_remove = Store.decrementItemInCart(id)
     socket = update(socket, :items, &(&1 = after_remove))
     socket = assign(socket, message: "Product Deleted From Cart Successfully!")
     {:noreply, socket}
