@@ -19,6 +19,7 @@ defmodule DemoWeb.Router do
 
     live "/", ProductsLive.Index, :index
     live "/product/:id", ProductsLive.Product
+    live "/check-out", ProductsLive.CheckOut
   end
 
   # Other scopes may use custom stacks.

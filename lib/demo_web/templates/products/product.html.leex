@@ -1,5 +1,5 @@
 <div>
-  <%= live_component(@socket, DemoWeb.Components.Header, items: @items, isCartOpen: @isCartOpen) %>
+  <%= live_component(@socket, DemoWeb.Components.Header, items: @items, isCartOpen: @isCartOpen, showCart: true) %>
   <%= live_component(@socket, DemoWeb.Components.Alert, message: @message) %>
   <div class="product-card-container">
     <div class="product-card">
@@ -7,7 +7,7 @@
       <img src="<%= @currentItem.image%>" style="margin-bottom: 20px; height: 250px;">
       <h4 style="margin-bottom: 50px"> Price: $<%= @currentItem.price%></h4>
       <div class="button-group">
-        <button phx-click="inc" phx-value-name="<%= @currentItem.name %>" phx-value-price="<%= @currentItem.price %>" class="button-style" >Add to Cart</button>
+        <button phx-click="inc" phx-value-id="<%= @currentItem.id %>" class="button-style" >Add to Cart</button>
       </div>
     </div>
   </div>

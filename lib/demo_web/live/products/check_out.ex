@@ -1,38 +1,24 @@
-defmodule DemoWeb.ProductsLive.Product do
+defmodule DemoWeb.ProductsLive.CheckOut do
   use Phoenix.LiveView
   alias DemoWeb.Store, as: Store
 
   def render(assigns) do
-    DemoWeb.ProductsView.render("product.html", assigns)
+    DemoWeb.ProductsView.render("check_out.html", assigns)
   end
 
-  def mount(%{"id" => id}, _session, socket) do
-    {i_d, _} = Integer.parse(id)
+  def mount(_params, _session, socket) do
     Store.init
     {_, cache} = Cachex.get(:my_cache, "global")
-    phone = getCurrentItem(i_d)
-    [currentItem | _] = phone
     {:ok, assign(
       socket,
+      phones: Store.getPhones,
       isCartOpen: false,
       items: cache.items,
-      currentItem: currentItem,
+      phoneCount: Store.phoneCount,
+      perPage: 4,
+      page: 1,
       message: ""
     )}
-  end
-
-  def handle_event("delete-item", %{"id" => id}, socket) do
-    {:noreply, update(socket, :items, &(&1 = Store.deleteItemFromCart(id)))}
-  end
-
-  def getCurrentItem(i_d) do
-    Enum.filter(Store.getAllPhones, fn(phone) ->
-      phone.id == i_d
-    end)
-  end
-
-  def handle_event("open-cart", _, socket) do
-    {:noreply, update(socket, :isCartOpen, &(!&1))}
   end
 
   def handle_event("inc", %{"id" => id}, socket) do
@@ -47,14 +33,15 @@ defmodule DemoWeb.ProductsLive.Product do
       end
     end)
     socket = assign(socket, :items, mod_items)
-    {_, cache} = Cachex.get(:my_cache, "global")
     if (socket.changed === %{} or !socket.changed.items) do
       items = mod_items ++ [ %{ searchItem | count: 1 } ]
+      {_, cache} = Cachex.get(:my_cache, "global")
       cache = Map.put(cache, :items, items)
       Cachex.set(:my_cache, "global", cache)
       socket = assign(socket, message: "Product Added To Cart Successfully")
       {:noreply, update(socket, :items, &(&1 = items))}
     else
+      {_, cache} = Cachex.get(:my_cache, "global")
       cache = Map.put(cache, :items, mod_items)
       Cachex.set(:my_cache, "global", cache)
       socket = assign(socket, message: "Product Added To Cart Successfully")
@@ -69,7 +56,8 @@ defmodule DemoWeb.ProductsLive.Product do
     {:noreply, socket}
   end
 
-  def handle_event("close-alert", _, socket) do
-    {:noreply, assign(socket, message: "")}
+  def handle_event("delete-item", %{"id" => id}, socket) do
+    {:noreply, update(socket, :items, &(&1 = Store.deleteItemFromCart(id)))}
   end
+
 end

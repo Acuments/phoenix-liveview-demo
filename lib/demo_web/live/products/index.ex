@@ -38,15 +38,8 @@ defmodule DemoWeb.ProductsLive.Index do
     {:noreply, update(socket, :phones, &(&1 = phones))}
   end
 
-  def handle_event("delete-item", %{"name" => name}, socket) do
-    items = socket.assigns.items
-    mod_items = Enum.filter(items, fn(item) ->
-      item.name != name
-    end)
-    {_, cache} = Cachex.get(:my_cache, "global")
-    cache = Map.put(cache, :items, mod_items)
-    Cachex.put(:my_cache, "global", cache)
-    {:noreply, update(socket, :items, &(&1 = mod_items))}
+  def handle_event("delete-item", %{"id" => id}, socket) do
+    {:noreply, update(socket, :items, &(&1 = Store.deleteItemFromCart(id)))}
   end
 
   def handle_event("close-cart", _, socket) do
@@ -57,23 +50,20 @@ defmodule DemoWeb.ProductsLive.Index do
     {:noreply, update(socket, :isCartOpen, &(!&1))}
   end
 
-  def handle_event("inc", %{"name" => name, "price" => price}, socket) do
+  def handle_event("inc", %{"id" => id}, socket) do
+    searchItem = Store.getItemById(id)
     items = socket.assigns.items
     test = true
     mod_items = Enum.map(items, fn(item) ->
-      if (item.name === name) do
-        %{
-          name: item.name,
-          count: item.count + 1,
-          price: item.price
-        }
+      if (item.id == String.to_integer(id)) do
+        %{item | count: item.count + 1}
       else
         item
       end
     end)
     socket = assign(socket, :items, mod_items)
     if (socket.changed === %{} or !socket.changed.items) do
-      items = mod_items ++ [%{ name: name, count: 1, price: price}]
+      items = mod_items ++ [ %{ searchItem | count: 1 } ]
       {_, cache} = Cachex.get(:my_cache, "global")
       cache = Map.put(cache, :items, items)
       Cachex.set(:my_cache, "global", cache)
@@ -88,32 +78,8 @@ defmodule DemoWeb.ProductsLive.Index do
     end
   end
 
-  def handle_event("dec", %{"name" => name}, socket) do
-    items = socket.assigns.items
-    mod_items = Enum.map(
-      items,
-      fn (item) ->
-        if (item.name === name) do
-          %{
-            name: item.name,
-            count: item.count - 1,
-            price: item.price
-          }
-        else
-          item
-        end
-      end
-    )
-    after_remove = Enum.filter(
-      mod_items,
-      fn (item) ->
-        item.count !== 0
-      end
-    )
-    {_, cache} = Cachex.get(:my_cache, "global")
-    cache = Map.put(cache, :items, after_remove)
-    Cachex.put(:my_cache, "global", cache)
-
+  def handle_event("dec", %{"id" => id}, socket) do
+    after_remove = Store.decrementItemInCart(id)
     socket = update(socket, :items, &(&1 = after_remove))
     socket = assign(socket, message: "Product Deleted From Cart Successfully!")
     {:noreply, socket}

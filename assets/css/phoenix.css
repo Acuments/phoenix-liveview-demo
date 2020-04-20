@@ -461,6 +461,36 @@ select {
   justify-content: flex-end;
 }
 
+.check-out-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 50px;
+}
+
+.check-out-item {
+  border: 1px solid #ff5c61;
+  border-radius: 3px;
+}
+
+.check-out-item-header {
+  border-bottom: 1px solid #ff5c61;
+  background-color: #dc3545;
+  padding: 10px 20px;
+  color: white;
+}
+
+.check-out-item-content {
+  padding: 10px 20px;
+}
+
+.check-out-item-cart {
+  flex: 0.7;
+}
+
+.check-out-item-summary {
+  flex: 0.25;
+}
+
 @media (min-width: 40.0rem) { /* Small devices (landscape phones, 576px and up) */
   header section {
     flex-direction: row;
