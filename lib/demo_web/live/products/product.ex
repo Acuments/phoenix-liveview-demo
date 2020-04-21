@@ -7,10 +7,10 @@ defmodule DemoWeb.ProductsLive.Product do
   end
 
   def mount(%{"id" => id}, _session, socket) do
-    {i_d, _} = Integer.parse(id)
+    {id, _} = Integer.parse(id)
     Store.init
     {_, cache} = Cachex.get(:my_cache, "global")
-    phone = getCurrentItem(i_d)
+    phone = getCurrentItem(id)
     [currentItem | _] = phone
     {:ok, assign(
       socket,
@@ -25,9 +25,9 @@ defmodule DemoWeb.ProductsLive.Product do
     {:noreply, update(socket, :items, &(&1 = Store.deleteItemFromCart(id)))}
   end
 
-  def getCurrentItem(i_d) do
+  def getCurrentItem(id) do
     Enum.filter(Store.getAllPhones, fn(phone) ->
-      phone.id == i_d
+      phone.id == id
     end)
   end
 
@@ -52,21 +52,17 @@ defmodule DemoWeb.ProductsLive.Product do
       items = mod_items ++ [ %{ searchItem | count: 1 } ]
       cache = Map.put(cache, :items, items)
       Cachex.set(:my_cache, "global", cache)
-      socket = assign(socket, message: "Product Added To Cart Successfully")
-      {:noreply, update(socket, :items, &(&1 = items))}
+      {:noreply, assign(socket, message: "Product Added To Cart Successfully", items: items)}
     else
       cache = Map.put(cache, :items, mod_items)
       Cachex.set(:my_cache, "global", cache)
-      socket = assign(socket, message: "Product Added To Cart Successfully")
-      {:noreply, update(socket, :items, &(&1 = mod_items))}
+      {:noreply, assign(socket, message: "Product Added To Cart Successfully", items: mod_items)}
     end
   end
 
   def handle_event("dec", %{"id" => id}, socket) do
     after_remove = Store.decrementItemInCart(id)
-    socket = update(socket, :items, &(&1 = after_remove))
-    socket = assign(socket, message: "Product Deleted From Cart Successfully!")
-    {:noreply, socket}
+    {:noreply, assign(socket, message: "Product Deleted From Cart Successfully!", items: after_remove)}
   end
 
   def handle_event("close-alert", _, socket) do

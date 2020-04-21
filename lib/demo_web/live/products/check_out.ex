@@ -24,7 +24,6 @@ defmodule DemoWeb.ProductsLive.CheckOut do
   def handle_event("inc", %{"id" => id}, socket) do
     searchItem = Store.getItemById(id)
     items = socket.assigns.items
-    test = true
     mod_items = Enum.map(items, fn(item) ->
       if (item.id == String.to_integer(id)) do
         %{item | count: item.count + 1}
@@ -38,26 +37,20 @@ defmodule DemoWeb.ProductsLive.CheckOut do
       {_, cache} = Cachex.get(:my_cache, "global")
       cache = Map.put(cache, :items, items)
       Cachex.set(:my_cache, "global", cache)
-      socket = assign(socket, message: "Product Added To Cart Successfully")
-      {:noreply, update(socket, :items, &(&1 = items))}
+      {:noreply, assign(socket, message: "Product Added To Cart Successfully", items: items)}
     else
       {_, cache} = Cachex.get(:my_cache, "global")
       cache = Map.put(cache, :items, mod_items)
       Cachex.set(:my_cache, "global", cache)
-      socket = assign(socket, message: "Product Added To Cart Successfully")
-      {:noreply, update(socket, :items, &(&1 = mod_items))}
+      {:noreply, assign(socket, message: "Product Added To Cart Successfully", items: mod_items)}
     end
   end
 
   def handle_event("dec", %{"id" => id}, socket) do
-    after_remove = Store.decrementItemInCart(id)
-    socket = update(socket, :items, &(&1 = after_remove))
-    socket = assign(socket, message: "Product Deleted From Cart Successfully!")
-    {:noreply, socket}
+    {:noreply, assign(socket, message: "Product Deleted From Cart Successfully!", items: Store.decrementItemInCart(id))}
   end
 
   def handle_event("delete-item", %{"id" => id}, socket) do
     {:noreply, update(socket, :items, &(&1 = Store.deleteItemFromCart(id)))}
   end
-
 end

@@ -27,15 +27,12 @@ defmodule DemoWeb.ProductsLive.Index do
 
   def handle_event("select-page", %{"per_page" => per_page}, socket) do
     {perPage, _} = Integer.parse(per_page)
-    phones = Store.getPhonesPerPage(perPage, 1)
-    socket = assign(socket, phones: phones, perPage: perPage, page: 1)
-    {:noreply, socket}
+    {:noreply, assign(socket, phones: Store.getPhonesPerPage(perPage, 1), perPage: perPage, page: 1)}
   end
 
   def handle_event("load-more", _, socket) do
-    phones = Store.getPhonesPerPage(socket.assigns.perPage, socket.assigns.page+ 1)
-    socket = assign(socket, page: socket.assigns.page + 1)
-    {:noreply, update(socket, :phones, &(&1 = phones))}
+    phones = Store.getPhonesPerPage(socket.assigns.perPage, socket.assigns.page + 1)
+    {:noreply, assign(socket, page: socket.assigns.page + 1, phones: phones)}
   end
 
   def handle_event("delete-item", %{"id" => id}, socket) do
@@ -67,22 +64,18 @@ defmodule DemoWeb.ProductsLive.Index do
       {_, cache} = Cachex.get(:my_cache, "global")
       cache = Map.put(cache, :items, items)
       Cachex.set(:my_cache, "global", cache)
-      socket = assign(socket, message: "Product Added To Cart Successfully")
-      {:noreply, update(socket, :items, &(&1 = items))}
+      {:noreply, assign(socket, message: "Product Added To Cart Successfully", items: items)}
     else
       {_, cache} = Cachex.get(:my_cache, "global")
       cache = Map.put(cache, :items, mod_items)
       Cachex.set(:my_cache, "global", cache)
-      socket = assign(socket, message: "Product Added To Cart Successfully")
-      {:noreply, update(socket, :items, &(&1 = mod_items))}
+      {:noreply, assign(socket, message: "Product Added To Cart Successfully", items: mod_items)}
     end
   end
 
   def handle_event("dec", %{"id" => id}, socket) do
     after_remove = Store.decrementItemInCart(id)
-    socket = update(socket, :items, &(&1 = after_remove))
-    socket = assign(socket, message: "Product Deleted From Cart Successfully!")
-    {:noreply, socket}
+    {:noreply, assign(socket, message: "Product Deleted From Cart Successfully!", items: after_remove)}
   end
 
   def handle_event("close-alert", _, socket) do
