@@ -31,8 +31,8 @@ defmodule DemoWeb.ProductsLive.Product do
     end)
   end
 
-  def handle_event("open-cart", _, socket) do
-    {:noreply, update(socket, :isCartOpen, &(!&1))}
+  def handle_event("toggle-cart", _, socket) do
+    {:noreply, update(socket, :isCartOpen, &(&1 = !socket.assigns.isCartOpen))}
   end
 
   def handle_event("inc", %{"id" => id}, socket) do
