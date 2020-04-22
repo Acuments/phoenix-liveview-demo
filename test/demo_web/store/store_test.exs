@@ -37,5 +37,34 @@ defmodule DemoWeb.StoreTest do
     test "#getAllPhones" do
       assert Enum.count(Store.getAllPhones) == 12
     end
+
+    test "#getItemById" do
+      Store.init
+      item = Store.getItemById(Integer.to_string(1))
+      allPhones = Store.getAllPhones
+      assert item == Enum.at(allPhones, 0)
+      item = Store.getItemById(Integer.to_string(0))
+      assert item == @empty
+    end
+
+    test "#decrementItemInCart" do
+      Store.init
+      {_, cache} = Cachex.get(:my_cache, "global")
+      items = [%{Store.getItemById(Integer.to_string(1)) | count: 1}]
+      initialState = %{ @initialState | items:  items}
+      Cachex.set(:my_cache, "global", initialState)
+      items = Store.decrementItemInCart(Integer.to_string(1))
+      assert items = cache.items
+    end
+
+    test "#deleteItemFromCart" do
+      Store.init
+      {_, cache} = Cachex.get(:my_cache, "global")
+      items = [%{Store.getItemById(Integer.to_string(1)) | count: 1}]
+      initialState = %{ @initialState | items:  items}
+      Cachex.set(:my_cache, "global", initialState)
+      items = Store.deleteItemFromCart(Integer.to_string(1))
+      assert items = cache.items
+    end
   end
 end
