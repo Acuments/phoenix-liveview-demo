@@ -50,4 +50,40 @@ defmodule DemoWeb.Store do
     @phones
   end
 
+  def getItemById(id) do
+    item = Enum.find(@phones, fn phone ->  phone.id == String.to_integer(id) end)
+  end
+
+  def decrementItemInCart(id) do
+    {_, cache} = Cachex.get(:my_cache, "global")
+    mod_items = Enum.map(
+      cache.items,
+      fn (item) ->
+        if (item.id === String.to_integer(id)) do
+          %{item | count: item.count - 1}
+        else
+          item
+        end
+      end
+    )
+    after_remove = Enum.filter(
+      mod_items,
+      fn (item) ->
+        item.count !== 0
+      end
+    )
+    cache = Map.put(cache, :items, after_remove)
+    Cachex.put(:my_cache, "global", cache)
+    after_remove
+  end
+
+  def deleteItemFromCart(id) do
+    {_, cache} = Cachex.get(:my_cache, "global")
+    mod_items = Enum.filter(cache.items, fn(item) ->
+      item.id != String.to_integer(id)
+    end)
+    cache = Map.put(cache, :items, mod_items)
+    Cachex.put(:my_cache, "global", cache)
+    mod_items
+  end
 end

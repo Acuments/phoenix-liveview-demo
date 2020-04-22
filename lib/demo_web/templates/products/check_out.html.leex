@@ -1,0 +1,56 @@
+<div>
+  <%= live_component(@socket, DemoWeb.Components.Header, items: @items, isCartOpen: @isCartOpen, showCart: false) %>
+  <div class="check-out-container">
+    <div class="check-out-item check-out-item-cart">
+      <div class="check-out-item-header">
+        Your Cart
+      </div>
+      <div class="check-out-item-content">
+        <%= if Enum.count(@items) === 0 do %>
+          <p> cart is empty</p>
+        <% else %>
+          <div style="height: 400px; overflow: scroll;">
+            <%= for item <- @items do %>
+            <div class="item-card-container">
+              <div class="item-card">
+                <p class="remove"><%= item.name %></p>
+                &nbsp;&nbsp;&nbsp;
+                <p class="remove">Price</p>
+                &nbsp;
+                <p class="remove">$<%= item.price %></p>
+                <img phx-click="delete-item" phx-value-id="<%= item.id %>" src="https://getdrawings.com/free-icon-bw/delete-icon-24.png" class="delete-button"/>
+                <div class="item-button">
+                  <button phx-click="dec" phx-value-id="<%= item.id %>" class="button-style-cart">-</button>
+                  <%= item.count %>
+                  <button phx-click="inc" phx-value-id="<%= item.id %>" class="button-style-cart">+</button>
+                </div>
+              </div>
+              <div class="item-card">
+                Total price: $<%=  item.count * item.price %>
+              </div>
+            </div>
+            <hr style="margin: 0px;">
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="check-out-item check-out-item-summary">
+      <div class="check-out-item-header">
+        Cart Summary
+      </div>
+      <div class="check-out-item-content">
+        <%= if Enum.count(@items) === 0 do %>
+          <p> cart is empty</p>
+        <% else %>
+          <div>
+            <p>Total cart value: $<%= DemoWeb.Components.Header.calc_total_price(@items) %></p>
+            <p>Discount: -$10</p>
+            <hr />
+            <p>Grand Total: $<%= DemoWeb.Components.Header.calc_total_price(@items) - 10 %></p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

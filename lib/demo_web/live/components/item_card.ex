@@ -12,7 +12,7 @@ defmodule DemoWeb.Components.ItemCard do
         <img src=<%= @phone.image%> class="image"/>
         <p>Price: $<%= @phone.price %></p></a>
         <div class="button-group">
-          <button phx-click=<%= @onClick %> phx-value-name="<%= @phone.name %>" phx-value-price="<%= @phone.price %>" class="button-style" id="add-button-<%= @phone.id %>"><%= @btnText %></button>
+          <button phx-click=<%= @onClick %> phx-value-id="<%= @phone.id %>"  class="button-style" id="add-button-<%= @phone.id %>"><%= @btnText %></button>
         </div>
       </div>
     """
