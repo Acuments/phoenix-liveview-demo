@@ -7,26 +7,28 @@ defmodule DemoWeb.StoreTest do
   @empty(nil)
 
   describe "DemoWeb.Store" do
-    test "#init" do
+
+    setup do
       Store.clearCache
       Store.init
+      :ok
+    end
+
+    test "#init" do
       {:ok, initialState} = Cachex.get(:my_cache, "global")
       assert initialState == @initialState
     end
 
     test "#getPhones" do
-      Store.clearCache
       phones = Store.getPhones
       assert Enum.count(phones) == 4
     end
 
     test "#phoneCount" do
-      Store.clearCache
       assert Store.phoneCount == 12
     end
 
     test "#clearCache" do
-      Store.init
       {:ok, initialState} = Cachex.get(:my_cache, "global")
       assert initialState == @initialState
       Store.clearCache
@@ -39,7 +41,6 @@ defmodule DemoWeb.StoreTest do
     end
 
     test "#getItemById" do
-      Store.init
       item = Store.getItemById(Integer.to_string(1))
       allPhones = Store.getAllPhones
       assert item == Enum.at(allPhones, 0)
@@ -48,23 +49,21 @@ defmodule DemoWeb.StoreTest do
     end
 
     test "#decrementItemInCart" do
-      Store.init
       {_, cache} = Cachex.get(:my_cache, "global")
       items = [%{Store.getItemById(Integer.to_string(1)) | count: 1}]
       initialState = %{ @initialState | items:  items}
       Cachex.set(:my_cache, "global", initialState)
       items = Store.decrementItemInCart(Integer.to_string(1))
-      assert items = cache.items
+      assert items == cache.items
     end
 
     test "#deleteItemFromCart" do
-      Store.init
       {_, cache} = Cachex.get(:my_cache, "global")
       items = [%{Store.getItemById(Integer.to_string(1)) | count: 1}]
       initialState = %{ @initialState | items:  items}
       Cachex.set(:my_cache, "global", initialState)
       items = Store.deleteItemFromCart(Integer.to_string(1))
-      assert items = cache.items
+      assert items == cache.items
     end
   end
 end
