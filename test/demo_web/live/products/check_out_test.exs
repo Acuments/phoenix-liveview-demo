@@ -1,9 +1,9 @@
-defmodule DemoWeb.ProductsLive.IndexTest do
+defmodule DemoWeb.ProductsLive.CheckOutText do
   use DemoWeb.ConnCase
   import Phoenix.LiveViewTest
   alias DemoWeb.Store
 
-  describe "DemoWeb.ProductsLive.Index" do
+  describe "DemoWeb.ProductsLive.CheckOut.index" do
     setup do
       Store.clearCache
       :ok
@@ -14,7 +14,7 @@ defmodule DemoWeb.ProductsLive.IndexTest do
       assert html
     end
 
-    test "add item to cart", %{conn: conn} do
+    test "increment item to cart", %{conn: conn} do
       {:ok, view, _html} = live(conn, "/")
       render_click(view, :inc, %{id: Integer.to_string(1)})
       conn = get(conn, "/")
@@ -23,7 +23,7 @@ defmodule DemoWeb.ProductsLive.IndexTest do
       assert item == expectingItem
     end
 
-    test "removing item from cart", %{conn: conn} do
+    test "decrement item from cart", %{conn: conn} do
       {:ok, view, _html} = live(conn, "/")
       render_click(view, :inc, %{id: Integer.to_string(1)})
       render_click(view, :dec, %{id: Integer.to_string(1)})
