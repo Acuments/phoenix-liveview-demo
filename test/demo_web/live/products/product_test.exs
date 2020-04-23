@@ -3,27 +3,29 @@ defmodule DemoWeb.ProductsLive.ProductTest do
   import Phoenix.LiveViewTest
   alias DemoWeb.Store
 
-  @test_add_item(%{count: 1, name: "One Plus", price: 110})
-  @test_remove_item([])
-
   describe "DemoWeb.ProductsLive.Product" do
-    test "add item to cart: Details page", %{conn: conn} do
+
+    setup do
       Store.clearCache
-      {:ok, view, _html} = live(conn, "/product/1")
-      render_click(view, :inc, %{name: "One Plus", price: 110})
+      :ok
+    end
+
+    test "add item to cart: Details page", %{conn: conn} do
+      {:ok, view, _html} = live(conn, "/")
+      render_click(view, :inc, %{id: Integer.to_string(1)})
       conn = get(conn, "/")
       [item | _] = conn.assigns.items
-      assert item == @test_add_item
+      expectingItem = %{ Store.getItemById(Integer.to_string(1)) | count: 1 }
+      assert item == expectingItem
     end
 
     test "removing item from cart: Details", %{conn: conn} do
-      Store.clearCache
-      {:ok, view, _html} = live(conn, "/product/1")
-      render_click(view, :inc, %{name: "One Plus", price: 110})
-      render_click(view, :dec, %{name: "One Plus"})
+      {:ok, view, _html} = live(conn, "/")
+      render_click(view, :inc, %{id: Integer.to_string(1)})
+      render_click(view, :dec, %{id: Integer.to_string(1)})
       conn = get(conn, "/")
       item = conn.assigns.items
-      assert item == @test_remove_item
+      assert item == []
     end
   end
 end
