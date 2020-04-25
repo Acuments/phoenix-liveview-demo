@@ -10,7 +10,7 @@
       <h1 class="header-name">Phoenix Ecommerce Site</h1>
     </a>
     <div class="cart-modal-container">
-      <%= if @isCartOpen do %>
+      <%= if @is_cart_open do %>
         <button class="checkout-button">Checkout</button>
         <div class="cart-modal">
           <%= if Enum.count(@items) === 0 do %>

@@ -3,8 +3,8 @@ defmodule DemoWeb.StoreTest do
   import Phoenix.LiveViewTest
   alias DemoWeb.Store
 
-  @initialState(%{count: 0, isOpen: false, items: [], test_state_var: "test"})
-  @empty(nil)
+  @initialState %{items: []}
+  @empty nil
 
   describe "DemoWeb.Store" do
 
@@ -19,13 +19,13 @@ defmodule DemoWeb.StoreTest do
       assert initialState == @initialState
     end
 
-    test "#getPhones" do
-      phones = Store.getPhones
+    test "#get_phones" do
+      phones = Store.get_phones
       assert Enum.count(phones) == 4
     end
 
-    test "#phoneCount" do
-      assert Store.phoneCount == 12
+    test "#phone_count" do
+      assert Store.phone_count == 12
     end
 
     test "#clearCache" do
@@ -36,33 +36,33 @@ defmodule DemoWeb.StoreTest do
       assert initialState == @empty
     end
 
-    test "#getAllPhones" do
-      assert Enum.count(Store.getAllPhones) == 12
+    test "#get_all_phones" do
+      assert Enum.count(Store.get_all_phones) == 12
     end
 
-    test "#getItemById" do
-      item = Store.getItemById(Integer.to_string(1))
-      allPhones = Store.getAllPhones
+    test "#get_item_by_id" do
+      item = Store.get_item_by_id(Integer.to_string(1))
+      allPhones = Store.get_all_phones
       assert item == Enum.at(allPhones, 0)
-      item = Store.getItemById(Integer.to_string(0))
+      item = Store.get_item_by_id(Integer.to_string(0))
       assert item == @empty
     end
 
-    test "#decrementItemInCart" do
+    test "#decrement_item_in_cart" do
       {_, cache} = Cachex.get(:my_cache, "global")
-      items = [%{Store.getItemById(Integer.to_string(1)) | count: 1}]
+      items = [%{Store.get_item_by_id(Integer.to_string(1)) | count: 1}]
       initialState = %{ @initialState | items:  items}
       Cachex.set(:my_cache, "global", initialState)
-      items = Store.decrementItemInCart(Integer.to_string(1))
+      items = Store.decrement_item_in_cart(Integer.to_string(1))
       assert items == cache.items
     end
 
-    test "#deleteItemFromCart" do
+    test "#delete_item_from_cart" do
       {_, cache} = Cachex.get(:my_cache, "global")
-      items = [%{Store.getItemById(Integer.to_string(1)) | count: 1}]
+      items = [%{Store.get_item_by_id(Integer.to_string(1)) | count: 1}]
       initialState = %{ @initialState | items:  items}
       Cachex.set(:my_cache, "global", initialState)
-      items = Store.deleteItemFromCart(Integer.to_string(1))
+      items = Store.delete_item_from_cart(Integer.to_string(1))
       assert items == cache.items
     end
   end

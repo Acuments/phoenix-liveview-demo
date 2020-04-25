@@ -19,8 +19,8 @@ defmodule DemoWeb.ProductsLive.CheckOutText do
       render_click(view, :inc, %{id: Integer.to_string(1)})
       conn = get(conn, "/")
       [item | _] = conn.assigns.items
-      expectingItem = %{ Store.getItemById(Integer.to_string(1)) | count: 1 }
-      assert item == expectingItem
+      expected_item = %{ Store.get_item_by_id(Integer.to_string(1)) | count: 1 }
+      assert item == expected_item
     end
 
     test "decrement item from cart", %{conn: conn} do

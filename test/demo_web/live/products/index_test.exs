@@ -19,7 +19,7 @@ defmodule DemoWeb.ProductsLive.IndexTest do
       render_click(view, :inc, %{id: Integer.to_string(1)})
       conn = get(conn, "/")
       [item | _] = conn.assigns.items
-      expectingItem = %{ Store.getItemById(Integer.to_string(1)) | count: 1 }
+      expectingItem = %{ Store.get_item_by_id(Integer.to_string(1)) | count: 1 }
       assert item == expectingItem
     end
 

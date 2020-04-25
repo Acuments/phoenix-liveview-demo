@@ -11,46 +11,27 @@ defmodule DemoWeb.ProductsLive.CheckOut do
     {_, cache} = Cachex.get(:my_cache, "global")
     {:ok, assign(
       socket,
-      phones: Store.getPhones,
-      isCartOpen: false,
+      phones: Store.get_phones,
+      is_cart_open: false,
       items: cache.items,
-      phoneCount: Store.phoneCount,
-      perPage: 4,
+      phone_count: Store.phone_count,
+      per_page: 4,
       page: 1,
       message: ""
     )}
   end
 
   def handle_event("inc", %{"id" => id}, socket) do
-    searchItem = Store.getItemById(id)
-    items = socket.assigns.items
-    mod_items = Enum.map(items, fn(item) ->
-      if (item.id == String.to_integer(id)) do
-        %{item | count: item.count + 1}
-      else
-        item
-      end
-    end)
-    socket = assign(socket, :items, mod_items)
-    if (socket.changed === %{} or !socket.changed.items) do
-      items = mod_items ++ [ %{ searchItem | count: 1 } ]
-      {_, cache} = Cachex.get(:my_cache, "global")
-      cache = Map.put(cache, :items, items)
-      Cachex.set(:my_cache, "global", cache)
-      {:noreply, assign(socket, message: "Product Added To Cart Successfully", items: items)}
-    else
-      {_, cache} = Cachex.get(:my_cache, "global")
-      cache = Map.put(cache, :items, mod_items)
-      Cachex.set(:my_cache, "global", cache)
-      {:noreply, assign(socket, message: "Product Added To Cart Successfully", items: mod_items)}
-    end
+    items = Store.increment_item_in_cart(id)
+    {:noreply, assign(socket, message: "Product Added To Cart Successfully", items: items)}
   end
 
   def handle_event("dec", %{"id" => id}, socket) do
-    {:noreply, assign(socket, message: "Product Deleted From Cart Successfully!", items: Store.decrementItemInCart(id))}
+    items = Store.decrement_item_in_cart(id)
+    {:noreply, assign(socket, message: "Product Deleted From Cart Successfully!", items: items)}
   end
 
   def handle_event("delete-item", %{"id" => id}, socket) do
-    {:noreply, update(socket, :items, &(&1 = Store.deleteItemFromCart(id)))}
+    {:noreply, update(socket, :items, &(&1 = Store.delete_item_from_cart(id)))}
   end
 end
