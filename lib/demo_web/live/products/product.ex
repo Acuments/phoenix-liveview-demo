@@ -7,28 +7,19 @@ defmodule DemoWeb.ProductsLive.Product do
   end
 
   def mount(%{"id" => id}, _session, socket) do
-    {id, _} = Integer.parse(id)
     Store.init
     {_, cache} = Cachex.get(:my_cache, "global")
-    phone = getCurrentItem(id)
-    [currentItem | _] = phone
     {:ok, assign(
       socket,
       is_cart_open: false,
       items: cache.items,
-      currentItem: currentItem,
+      current_item: Store.get_item_by_id(id),
       message: ""
     )}
   end
 
   def handle_event("delete-item", %{"id" => id}, socket) do
     {:noreply, update(socket, :items, &(&1 = Store.delete_item_from_cart(id)))}
-  end
-
-  def getCurrentItem(id) do
-    Enum.filter(Store.get_all_phones, fn(phone) ->
-      phone.id == id
-    end)
   end
 
   def handle_event("toggle-cart", _, socket) do

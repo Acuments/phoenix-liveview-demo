@@ -4,8 +4,6 @@ defmodule DemoWeb.ProductsLive.Index do
   alias DemoWeb.Router.Helpers, as: Routes
   alias DemoWeb.Store, as: Store
 
-  @items []
-
   def render(assigns) do
     DemoWeb.ProductsView.render("index.html", assigns)
   end

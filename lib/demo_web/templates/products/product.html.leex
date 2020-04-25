@@ -1,13 +1,13 @@
 <div>
-  <%= live_component(@socket, DemoWeb.Components.Header, items: @items, is_cart_open: @is_cart_open, showCart: true) %>
+  <%= live_component(@socket, DemoWeb.Components.Header, items: @items, is_cart_open: @is_cart_open) %>
   <%= live_component(@socket, DemoWeb.Components.Alert, message: @message) %>
   <div class="product-card-container">
     <div class="product-card">
-      <h1 style="margin-bottom: 20px"><%= @currentItem.name %></h1>
-      <img src="<%= @currentItem.image%>" style="margin-bottom: 20px; height: 250px;">
-      <h4 style="margin-bottom: 50px"> Price: $<%= @currentItem.price%></h4>
+      <h1 style="margin-bottom: 20px"><%= @current_item.name %></h1>
+      <img src="<%= @current_item.image%>" style="margin-bottom: 20px; height: 250px;">
+      <h4 style="margin-bottom: 50px"> Price: $<%= @current_item.price%></h4>
       <div class="button-group">
-        <button phx-click="inc" phx-value-id="<%= @currentItem.id %>" class="button-style" >Add to Cart</button>
+        <button phx-click="inc" phx-value-id="<%= @current_item.id %>" class="button-style" >Add to Cart</button>
       </div>
     </div>
   </div>

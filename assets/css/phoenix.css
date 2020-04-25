@@ -359,10 +359,6 @@ select {
   height: 65px;
 }
 
-.component-container {
-  position: relative;
-}
-
 .left-card {
   margin-top: 110px;
   width: 260px;

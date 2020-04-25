@@ -1,5 +1,5 @@
-<div class="component-container">
-  <%= live_component(@socket, DemoWeb.Components.Header, items: @items, is_cart_open: @is_cart_open, showCart: true) %>
+<div>
+  <%= live_component(@socket, DemoWeb.Components.Header, items: @items, is_cart_open: @is_cart_open) %>
   <%= live_component(@socket, DemoWeb.Components.Alert, message: @message) %>
   <div class="product-container product-header">
     <div class="button-center select">

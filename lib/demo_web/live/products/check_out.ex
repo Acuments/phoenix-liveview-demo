@@ -34,4 +34,8 @@ defmodule DemoWeb.ProductsLive.CheckOut do
   def handle_event("delete-item", %{"id" => id}, socket) do
     {:noreply, update(socket, :items, &(&1 = Store.delete_item_from_cart(id)))}
   end
+
+  def handle_event("toggle-cart", _, socket) do
+    {:noreply, update(socket, :is_cart_open, &(&1 = !socket.assigns.is_cart_open))}
+  end
 end
