@@ -19,10 +19,10 @@ defmodule DemoWeb.Store do
     items: [],
   }
 
-  def init do
-    {_, cache} = Cachex.get(:my_cache, "global")
+  def init(session) do
+    {_, cache} = Cachex.get(:my_cache, session["_csrf_token"])
     if(!cache) do
-      Cachex.set(:my_cache, "global", @initial_state)
+      Cachex.set(:my_cache, session["_csrf_token"], @initial_state)
     end
   end
 
@@ -51,13 +51,13 @@ defmodule DemoWeb.Store do
     item = Enum.find(@phones, fn phone ->  phone.id == String.to_integer(id) end)
   end
 
-  def get_items do
-    {_, cache} = Cachex.get(:my_cache, "global")
+  def get_items(session) do
+    {_, cache} = Cachex.get(:my_cache, session["_csrf_token"])
     cache.items
   end
 
-  def decrement_item_in_cart(id) do
-    {_, cache} = Cachex.get(:my_cache, "global")
+  def decrement_item_in_cart(id, token) do
+    {_, cache} = Cachex.get(:my_cache, token)
     mod_items = Enum.map(
       cache.items,
       fn (item) ->
@@ -75,12 +75,12 @@ defmodule DemoWeb.Store do
       end
     )
     cache = Map.put(cache, :items, after_remove)
-    Cachex.put(:my_cache, "global", cache)
+    Cachex.put(:my_cache, token, cache)
     after_remove
   end
 
-  def increment_item_in_cart(id) do
-    {_, cache} = Cachex.get(:my_cache, "global")
+  def increment_item_in_cart(id, token) do
+    {_, cache} = Cachex.get(:my_cache, token)
     items = cache.items
     search_item = get_item_by_id(id)
 
@@ -107,17 +107,17 @@ defmodule DemoWeb.Store do
     end)
 
     cache = Map.put(cache, :items, items)
-    Cachex.set(:my_cache, "global", cache)
+    Cachex.set(:my_cache, token, cache)
     items
   end
 
-  def delete_item_from_cart(id) do
-    {_, cache} = Cachex.get(:my_cache, "global")
+  def delete_item_from_cart(id, token) do
+    {_, cache} = Cachex.get(:my_cache, token)
     mod_items = Enum.filter(cache.items, fn(item) ->
       item.id != String.to_integer(id)
     end)
     cache = Map.put(cache, :items, mod_items)
-    Cachex.put(:my_cache, "global", cache)
+    Cachex.put(:my_cache, token, cache)
     mod_items
   end
 end
