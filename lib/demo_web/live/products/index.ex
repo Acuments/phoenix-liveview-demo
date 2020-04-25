@@ -10,12 +10,11 @@ defmodule DemoWeb.ProductsLive.Index do
 
   def mount(_params, _session, socket) do
     Store.init
-    {_, cache} = Cachex.get(:my_cache, "global")
     {:ok, assign(
       socket,
       phones: Store.get_phones,
       is_cart_open: false,
-      items: cache.items,
+      items: Store.get_items,
       phone_count: Store.phone_count,
       per_page: 4,
       page: 1,

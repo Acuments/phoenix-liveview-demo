@@ -51,6 +51,11 @@ defmodule DemoWeb.Store do
     item = Enum.find(@phones, fn phone ->  phone.id == String.to_integer(id) end)
   end
 
+  def get_items do
+    {_, cache} = Cachex.get(:my_cache, "global")
+    cache.items
+  end
+
   def decrement_item_in_cart(id) do
     {_, cache} = Cachex.get(:my_cache, "global")
     mod_items = Enum.map(

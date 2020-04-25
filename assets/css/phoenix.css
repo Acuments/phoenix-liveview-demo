@@ -260,19 +260,22 @@ select {
   position: fixed;
   z-index: 100;
   padding: 10px 10% 10px 10%;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
 }
 
 .header-name {
   color: #ff5c61;
+  margin: 0px;
 }
 
 .cart {
-  position: absolute;
-  right: 10px;
-  top: 10px;
   cursor: pointer;
   padding: 10px;
   transition: 0.2s ease-in-out;
+  width: 40px;
+  height: 40px;
 }
 
 .badge {
@@ -301,6 +304,7 @@ select {
 .cart-modal-container {
   position: absolute;
   right: 10px;
+  top: 65px;
 }
 
 .cart-modal {
@@ -464,7 +468,7 @@ select {
 }
 
 .check-out-item {
-  ackground-color: #fff;
+  background-color: #fff;
   cursor: pointer;
   border-radius: 2px;
   margin-bottom: 8px;
@@ -564,3 +568,20 @@ select {
     margin: 2rem 1rem;
   }
 }
+
+@media (max-width: 500px) {
+  .header-name {
+    font-size: 25px;
+  }
+  .cart {
+    width: 20px;
+    height: 20px;
+    padding: 5px 2px;
+  }
+  .cart svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+

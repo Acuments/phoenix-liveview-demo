@@ -8,11 +8,10 @@ defmodule DemoWeb.ProductsLive.Product do
 
   def mount(%{"id" => id}, _session, socket) do
     Store.init
-    {_, cache} = Cachex.get(:my_cache, "global")
     {:ok, assign(
       socket,
       is_cart_open: false,
-      items: cache.items,
+      items: Store.get_items,
       current_item: Store.get_item_by_id(id),
       message: ""
     )}
