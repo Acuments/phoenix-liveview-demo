@@ -15,6 +15,15 @@ config :demo, DemoWeb.Endpoint,
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
+# Configure your database
+config :demo, Demo.Repo,
+  username: "postgres",
+  password: "postgres",
+  database: "demo_prod",
+  hostname: "localhost",
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 10
+
 # Do not print debug messages in production
 config :logger, level: :info
 
