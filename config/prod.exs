@@ -10,12 +10,7 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :demo, DemoWeb.Endpoint,
-  http: [port: {:system, "PORT"}],
-  url: [
-    scheme: "https",
-    host: "phoenix-demo1.acuments.com",
-    port: 443
-  ],
+  http: [ip: {127, 0, 0, 1}, port: 4000],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
