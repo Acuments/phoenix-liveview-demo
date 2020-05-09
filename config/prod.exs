@@ -16,6 +16,7 @@ config :demo, DemoWeb.Endpoint,
     host: "phoenix-demo1.acuments.com",
     port: 443
   ],
+  check_origin: ["https://phoenix-demo1.acuments.com"],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
