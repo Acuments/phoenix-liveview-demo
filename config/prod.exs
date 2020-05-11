@@ -13,7 +13,7 @@ config :demo, DemoWeb.Endpoint,
   http: [port: {:system, "PORT"}],
   url: [
     scheme: "https",
-    host: "phoenix-demo1.acuments.com",
+    host: "phoenix-demo.acuments.com",
     port: 443
   ],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
