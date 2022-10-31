@@ -5,7 +5,7 @@ defmodule Demo.MixProject do
     [
       app: :demo,
       version: "0.1.0",
-      elixir: "~> 1.10.2",
+      elixir: "~> 1.13.4",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -33,18 +33,18 @@ defmodule Demo.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.4.16"},
-      {:phoenix_pubsub, "~> 1.1"},
+      {:phoenix, "~> 1.6.15"},
+      {:phoenix_pubsub, "~> 2.0"},
       {:phoenix_ecto, "~> 4.0"},
       {:ecto_sql, "~> 3.1"},
       {:postgrex, ">= 0.0.0"},
-      {:phoenix_html, "~> 2.11"},
-      {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:phoenix_html, "~> 3.0"},
+      {:phoenix_live_reload, "~> 1.3", only: :dev},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:poison, "~> 3.1"},
-      {:plug_cowboy, "~> 2.0"},
-      {:phoenix_live_view, "~> 0.11.1"},
+      {:plug_cowboy, "~> 2.1"},
+      {:phoenix_live_view, "~> 0.18.3"},
       {:floki, ">= 0.0.0", only: :test},
       {:redis, "~> 0.1.0"},
       {:ex2ms, "~> 1.0"},

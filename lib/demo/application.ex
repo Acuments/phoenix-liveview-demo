@@ -9,6 +9,8 @@ defmodule Demo.Application do
     import Supervisor.Spec
     # List all child processes to be supervised
     children = [
+      # Start the PubSub system
+      {Phoenix.PubSub, name: DemoWeb.PubSub},
       # Start the Ecto repository
       Demo.Repo,
       # Start the endpoint when the application starts

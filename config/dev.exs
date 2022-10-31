@@ -2,7 +2,7 @@ use Mix.Config
 
 # Configure your database
 config :demo, Demo.Repo,
-  username: "postgres",
+  username: "ronak",
   password: "postgres",
   database: "demo_dev",
   hostname: "localhost",
