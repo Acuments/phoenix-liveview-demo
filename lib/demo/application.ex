@@ -12,7 +12,6 @@ defmodule Demo.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: DemoWeb.PubSub},
       # Start the Ecto repository
-      Demo.Repo,
       # Start the endpoint when the application starts
       DemoWeb.Endpoint,
       # Starts a worker by calling: Demo.Worker.start_link(arg)
